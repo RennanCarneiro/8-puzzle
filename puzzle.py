@@ -68,4 +68,43 @@ def iterative_deepening_search(start_state):
             return result
         depth += 1
 
+# Reconstrói o caminho desde o nó final até o estado inicial
+def reconstruct_path(node):
+    path = []
+    while node is not None:
+        path.append(node)
+        node = node.parent
+    path.reverse()  # Do início até o objetivo
+    return path
+
+def print_state(state):
+    for i in range(0, 9, 3):
+        print(state[i], state[i+1], state[i+2])
+
+# Imprime todos os passos desde o estado inicial até o objetivo
+def print_solution(goal_node, start_state):
+    if goal_node is None:
+        print("Nenhuma solução encontrada.")
+        return
+    path = reconstruct_path(goal_node)
+    print(f"\nSolução encontrada em {len(path) - 1} movimentos.\n")
+    for i, node in enumerate(path):
+        print(f"Movimento {i}: {'Início' if node.action is None else node.action}")
+        print_state(node.state)
+        print("-----")
+
+# Estado inicial 
+start = [1, 2, 3,
+         5, 0, 6,
+         4, 7, 8]
+
+print("Estado inicial sorteado:")
+print_state(start)
+
+start_time = time.time()
+goal_node = iterative_deepening_search(start)
+end_time = time.time()
+
+print_solution(goal_node, start)
+print(f"Tempo de execução: {end_time - start_time:.2f} segundos")
 
