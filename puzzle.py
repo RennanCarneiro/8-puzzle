@@ -46,3 +46,26 @@ class Node:
                 children.append(child)
         return children
 
+# Busca com profundidade limitada
+def depth_limited_search(node, limit):
+    if node.state == goal_state:
+        return node
+    if limit <= 0:
+        return None
+    for child in node.generate_children_copy():
+        result = depth_limited_search(child, limit - 1)
+        if result is not None:
+            return result
+    return None
+
+# Busca Iterativa de Profundidade
+def iterative_deepening_search(start_state):
+    depth = 0
+    while True:
+        print(f"Buscando com profundidade limite = {depth}...")
+        result = depth_limited_search(Node(start_state), depth)
+        if result is not None:
+            return result
+        depth += 1
+
+
